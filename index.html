@@ -20,7 +20,7 @@
         }
 
         html {
-            scroll-behavior: smooth; /* Плавний скролінг */
+            scroll-behavior: smooth;
         }
 
         body {
@@ -140,14 +140,15 @@
             text-shadow: var(--neon-glow);
         }
 
-        /* Картки з послугами */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
+        /* Картки з послугами та цінами */
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 35px;
         }
 
-        .service-card {
+        .service-card, .price-card {
             background: var(--card-bg);
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
@@ -160,12 +161,12 @@
             transform: translateY(50px);
         }
         
-        .service-card.visible {
+        .service-card.visible, .price-card.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .service-card::before {
+        .service-card::before, .price-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -178,13 +179,13 @@
             opacity: 0;
         }
 
-        .service-card:hover {
+        .service-card:hover, .price-card:hover {
             transform: translateY(-15px) scale(1.03);
             box-shadow: 0 15px 30px var(--card-shadow);
             border-color: var(--accent-color);
         }
 
-        .service-card:hover::before {
+        .service-card:hover::before, .price-card:hover::before {
             opacity: 1;
         }
         
@@ -200,14 +201,14 @@
             transform: scale(1.1);
         }
 
-        .service-card h3 {
+        .service-card h3, .price-card h3 {
             color: var(--accent-color);
             font-size: 1.8em;
             margin-top: 0;
             margin-bottom: 15px;
         }
 
-        .service-card p {
+        .service-card p, .price-card p {
             color: #b0b0b0;
         }
 
@@ -447,6 +448,7 @@
             <a href="#about">Про мене</a>
             <a href="#services">Послуги</a>
             <a href="#portfolio">Портфоліо</a>
+            <a href="#prices">Ціни</a>
             <a href="#testimonials">Відгуки</a>
             <a href="#contact">Контакти</a>
         </div>
@@ -506,6 +508,36 @@
                 </div>
             </div>
         </section>
+        
+        <section id="prices" class="container">
+            <h2>Ціни</h2>
+            <div class="cards-container">
+                <div class="price-card">
+                    <h3>Міні-сервер</h3>
+                    <p>від 200 грн</p>
+                </div>
+                <div class="price-card">
+                    <h3>Сервер під ключ</h3>
+                    <p>від 500 грн</p>
+                </div>
+                <div class="price-card">
+                    <h3>Карти / світи</h3>
+                    <p>від 100 грн</p>
+                </div>
+                <div class="price-card">
+                    <h3>Roblox-ігри</h3>
+                    <p>від 50 грн</p>
+                </div>
+                <div class="price-card">
+                    <h3>Сайти</h3>
+                    <p>від 200 грн</p>
+                </div>
+                <div class="price-card">
+                    <h3>Технічна допомога</h3>
+                    <p>від 50 грн</p>
+                </div>
+            </div>
+        </section>
 
         <section id="testimonials" class="container">
             <h2>Відгуки клієнтів</h2>
@@ -557,7 +589,7 @@
             });
         }, { threshold: 0.2 });
 
-        document.querySelectorAll('.service-card, .portfolio-item, .testimonial-card').forEach(item => {
+        document.querySelectorAll('.service-card, .price-card, .portfolio-item, .testimonial-card').forEach(item => {
             observer.observe(item);
         });
 
