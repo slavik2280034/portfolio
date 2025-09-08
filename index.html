@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slavik Pro | Розробка серверів, ігор та сайтів</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Загальні стилі та шрифти */
+        :root {
+            --bg-color: #0A0A0A;
+            --text-color: #E0E0E0;
+            --accent-color: #00FFFF;
+            --card-bg: #1A1A1A;
+            --card-shadow: rgba(0, 255, 255, 0.2);
+            --neon-glow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+        }
+
+        html {
+            scroll-behavior: smooth; /* Плавний скролінг */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* Загальні елементи */
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 120px 0;
+            text-align: center;
+        }
+        
+        h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5em;
+            color: var(--accent-color);
+            margin-bottom: 50px;
+            text-shadow: var(--neon-glow);
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            width: 100px;
+            height: 4px;
+            background: var(--text-color);
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* Заголовок (Header) */
+        header {
+            height: 100vh;
+            background: linear-gradient(135deg, #1f1f1f, #0a0a0a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5em;
+            font-weight: 700;
+            color: white;
+            text-shadow: var(--neon-glow);
+            margin: 0;
+            animation: fadeInDown 1.5s ease-in-out;
+        }
+        
+        .header-content p {
+            font-size: 1.5em;
+            font-weight: 400;
+            color: #b0b0b0;
+            margin: 20px 0 40px;
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 0 15px var(--accent-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: bounceIn 2s ease-in-out;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 25px var(--accent-color);
+        }
+        
+        /* Навігація */
+        nav {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 18px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px var(--card-shadow);
+        }
+
+        nav a {
+            color: #d0d0d0;
+            text-decoration: none;
+            margin: 0 25px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Картки з послугами */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.6s ease, transform 0.6s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.0));
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 15px 30px var(--card-shadow);
+            border-color: var(--accent-color);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        
+        .service-card i {
+            font-size: 3em;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-shadow: var(--neon-glow);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover i {
+            transform: scale(1.1);
+        }
+
+        .service-card h3 {
+            color: var(--accent-color);
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: #b0b0b0;
+        }
+
+        /* Секція "Портфоліо" */
+        #portfolio {
+            background-color: #050505;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .portfolio-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--card-shadow);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .portfolio-item h4 {
+            color: var(--accent-color);
+            margin-top: 20px;
+        }
+
+        .portfolio-item p {
+            color: #b0b0b0;
+            padding: 0 20px 20px;
+        }
+        
+        /* Секція відгуків */
+        #testimonials {
+            background-color: #0A0A0A;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            margin: auto;
+            border-left: 5px solid var(--accent-color);
+            box-shadow: 0 5px 15px var(--card-shadow);
+            transition: transform 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.2em;
+            color: #b0b0b0;
+        }
+
+        .testimonial-card h4 {
+            margin-top: 20px;
+            color: var(--accent-color);
+        }
+
+        /* Форма */
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px var(--card-shadow);
+            text-align: left;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #d0d0d0;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #333;
+            background-color: #222;
+            color: #e0e0e0;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 1.1em;
+            transition: border-color 0.3s ease;
+        }
+
+        form input:focus, form textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px var(--accent-color);
+        }
+
+        form button {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            padding: 18px 35px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 700;
+            box-shadow: 0 0 10px var(--accent-color);
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        form button:hover {
+            background: #008080;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: #050505;
+            color: #666;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .social-icons a {
+            color: #d0d0d0;
+            font-size: 1.5em;
+            margin: 0 10px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Кнопка "Нагору" */
+        #scrollToTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            font-size: 24px;
+            border: none;
+            outline: none;
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-color);
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+        }
+
+        #scrollToTopBtn:hover {
+            background-color: #008080;
+        }
+
+        /* Анімації */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes bounceIn {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* Адаптивність */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 3em;
+            }
+            header p {
+                font-size: 1em;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            nav a {
+                margin: 0 10px;
+            }
+            section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>Послуги Slavik</h1>
+            <p>Професійна розробка серверів, ігор та сайтів</p>
+            <a href="#contact" class="cta-button">Зв'язатися зі мною</a>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <a href="#about">Про мене</a>
+            <a href="#services">Послуги</a>
+            <a href="#portfolio">Портфоліо</a>
+            <a href="#testimonials">Відгуки</a>
+            <a href="#contact">Контакти</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="about" class="container">
+            <h2>Про мене</h2>
+            <div class="section-content">
+                <p>Вітаю! Я Слава, і я захоплений світом технологій. Спеціалізуюся на створенні унікальних цифрових проєктів, від ігрових серверів та карт до функціональних сайтів. Моя мета — перетворювати ваші ідеї на реальність, використовуючи сучасні підходи та креативний підхід до кожного завдання. Готовий втілити ваш проєкт!</p>
+            </div>
+        </section>
+
+        <section id="services" class="container">
+            <h2>Мої послуги</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-server"></i>
+                    <h3>Minecraft-сервери</h3>
+                    <p>Створюю та налаштовую сервери будь-якої складності, від невеликих для друзів до повноцінних серверів під ключ з ексклюзивними плагінами.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-map"></i>
+                    <h3>Карти та світи</h3>
+                    <p>Розробляю унікальні ігрові світи, арени та кастомні об'єкти для Minecraft та Roblox. Кожен проєкт — це справжній витвір мистецтва.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>Roblox-ігри</h3>
+                    <p>Пишу скрипти, розробляю міні-ігри та створюю повні ігрові проєкти на платформі Roblox. Ваші ідеї стануть популярною грою.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Веб-розробка</h3>
+                    <p>Створюю сучасні сайти-візитки, лендінги та надаю технічну підтримку. Допоможу вирішити будь-які IT-проблеми, від налаштування ПК до Wi-Fi.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="container">
+            <h2>Портфоліо</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://via.placeholder.com/400x250.png?text=Проєкт+1" alt="Приклад роботи 1">
+                    <h4>Назва проєкту</h4>
+                    <p>Опис проєкту. Створено Minecraft-сервер для спільноти.</p>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://via.placeholder.com/400x250.png?text=Проєкт+2" alt="Приклад роботи 2">
+                    <h4>Назва проєкту</h4>
+                    <p>Опис проєкту. Розроблено Roblox-гру з унікальною механікою.</p>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://via.placeholder.com/400x250.png?text=Проєкт+3" alt="Приклад роботи 3">
+                    <h4>Назва проєкту</h4>
+                    <p>Опис проєкту. Зроблено сайт-візитку для замовника.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="container">
+            <h2>Відгуки клієнтів</h2>
+            <div class="testimonial-card">
+                <p>"Слава — справжній професіонал! Він швидко і якісно налаштував наш сервер. Всім рекомендую!"</p>
+                <h4>— Іван, задоволений клієнт</h4>
+            </div>
+        </section>
+
+        <section id="contact" class="container">
+            <h2>Контакти</h2>
+            <p>Залиште свої дані, і я зв’яжуся з вами, щоб обговорити деталі.</p>
+            <form id="contact-form">
+                <label for="name">Ваше ім'я:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Ваш Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Повідомлення:</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+
+                <button type="submit">Надіслати</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://t.me/yourtelegram" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                <a href="https://github.com/yourgithub" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://instagram.com/yourinstagram" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p>&copy; 2025 Slavik | Всі права захищені</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" title="Нагору"><i class="fas fa-arrow-up"></i></button>
+
+    <script>
+        // Анімація елементів при прокручуванні
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.service-card, .portfolio-item, .testimonial-card').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Кнопка "Нагору"
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.style.display = 'block';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Форма зворотного зв'язку
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            alert('Дякуємо! Ваше повідомлення успішно надіслано. Я зв\'яжуся з вами найближчим часом.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
